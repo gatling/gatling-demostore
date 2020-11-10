@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head th:replace="/fragments/head :: head"></head>
+  <head th:replace="fragments/head :: head"></head>
   <body>
-    <nav th:replace="/fragments/nav :: nav-admin"></nav>
+    <nav th:replace="fragments/nav :: nav-admin"></nav>
     <div class="container">
       <h1 class="display-2">Pages</h1>
       <a href="/admin/pages/add" class="btn btn-primary mb-5">Add new</a>
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div th:replace="/fragments/footer"></div>
+    <div th:replace="fragments/footer"></div>
 
     <script>
       let token = $("meta[name='_csrf']").attr('content')
