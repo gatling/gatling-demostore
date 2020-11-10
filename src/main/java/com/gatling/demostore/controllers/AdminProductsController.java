@@ -124,7 +124,8 @@ public class AdminProductsController {
             product.setImage(filename);
             productRepo.save(product);
 
-            Files.write(path, bytes);
+            // Commenting this out to prevent file uploads
+         //   Files.write(path, bytes);
         }
 
         return "redirect:/admin/products/add";
@@ -196,17 +197,15 @@ public class AdminProductsController {
             product.setSlug(slug);
 
             if (!file.isEmpty()) {
-                Path path2 = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
-                Files.delete(path2);
+             //   Path path2 = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
+            //    Files.delete(path2);
                 product.setImage(filename);
-                Files.write(path, bytes);
+            //    Files.write(path, bytes);
             } else {
                 product.setImage(currentProduct.getImage());
             }
 
             productRepo.save(product);
-
-            
         }
 
         return "redirect:/admin/products/edit/" + product.getId();
@@ -215,11 +214,14 @@ public class AdminProductsController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) throws IOException {
 
-        Product product = productRepo.getOne(id);
-        Product currentProduct = productRepo.getOne(product.getId());
+        // Commenting out to prevent deleting file images
+      //  Product product = productRepo.getOne(id);
+      //  Product currentProduct = productRepo.getOne(product.getId());
 
-        Path path2 = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
-        Files.delete(path2);
+      //  Path path2 = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
+      //  Files.delete(path2);
+
+
         productRepo.deleteById(id);
 
         redirectAttributes.addFlashAttribute("message", "Product deleted");
