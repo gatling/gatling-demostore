@@ -3,3 +3,12 @@ spring:
     user:
       name: user
       password: pass
+
+server:
+  ssl:
+    key-store: classpath:cert_and_key.p12
+    key-store-password: password
+    key-store-type: pkcs12
+    key-alias: tomcat
+    key-password: password
+  port: 443
