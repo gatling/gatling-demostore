@@ -65,8 +65,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .requiresSecure()
         .and()
             .authorizeRequests()
-            .antMatchers("/**")
-            .permitAll();
+            .antMatchers("/cart/view").hasAnyRole("USER", "ADMIN")
+            .antMatchers("/admin/**").hasAnyRole("ADMIN")
+            .antMatchers("/").permitAll()
+                .and()
+                    .formLogin()
+                        .loginPage("/login")
+                .and()
+                    .logout()
+                        .logoutSuccessUrl("/")
+                .and()
+                    .exceptionHandling()
+                        .accessDeniedPage("/");
     }
     
 }

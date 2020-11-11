@@ -129,12 +129,32 @@ public class CartController {
             return "redirect:/";
         }
 
+        // TODO - Add a Cart empty page
+
         HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>)session.getAttribute("cart");
 
         model.addAttribute("cart", cart);
         model.addAttribute("notCartViewPage", true);
 
         return "cart";
+    }
+
+    @GetMapping("/checkout")
+    public String checkout(HttpSession session, Model model) {
+
+        if (session.getAttribute("cart") == null) {
+            return "redirect:/";
+        }
+        
+        session.removeAttribute("cart");
+
+        return "redirect:/cart/checkoutConfirmation";
+    }
+
+    @GetMapping("/checkoutConfirmation")
+    public String checkoutConfirmation() {
+
+        return "checkout";
     }
     
 }
