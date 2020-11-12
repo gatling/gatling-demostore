@@ -37,7 +37,7 @@ public class PagesController {
         Page page = pageRepo.findBySlug(slug);
 
         if (page == null) {
-            return "redirect:/";
+            return "redirect:/error";
         }
 
         model.addAttribute("page", page);
