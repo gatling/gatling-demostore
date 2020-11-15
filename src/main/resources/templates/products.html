@@ -16,12 +16,19 @@
           <div class="row">
             <div class="col-4" th:each="product: ${products}">
               <p>
-                <img
-                  style="width: 200px"
-                  th:src="@{'/media/' + ${product.image}}"
-                />
+                <a
+                  th:href="@{'/product/' + ${product.slug}}"
+                  class="link-unstyled"
+                  ><img
+                    style="width: 200px"
+                    th:src="@{'/media/' + ${product.image}}"
+                /></a>
               </p>
-              <h4 th:text="${product.name}"></h4>
+              <a
+                th:href="@{'/product/' + ${product.slug}}"
+                class="link-unstyled"
+                ><h4 th:text="${product.name}"></h4
+              ></a>
               <div class="desc" th:utext="${product.description}"></div>
               <p th:text="'$' + ${product.price}"></p>
               <div style="position: relative">

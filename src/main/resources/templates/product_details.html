@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="fragments/head :: head"></head>
+  <body>
+    <nav th:replace="fragments/nav :: nav-front"></nav>
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div th:replace="fragments/categories"></div>
+        <div class="col"></div>
+        <div class="col-8">
+          <h2
+            class="display-3 mb-5"
+            th:text="${product.name} ?: 'Product Name'"
+          ></h2>
+          <div class="row" th:utext="${product.description}"></div>
+          <div class="row">
+            <img
+              style="width: 300px"
+              th:src="@{'/media/' + ${product.image}}"
+              alt=""
+            />
+          </div>
+          <div class="row" th:text="'Price: $' + ${product.price}"></div>
+          <div class="row mt-3">
+            <div style="position: relative">
+              <p>
+                <a
+                  class="btn btn-primary addToCart"
+                  th:attr="data-id=${product.id}"
+                  th:href="@{'/cart/add/' + ${product.id}}"
+                  >Add to cart</a
+                >
+                <img class="ajaxLoader d-none" src="/images/ajax-loader.gif" />
+              </p>
+              <div class="btn btn-sm btn-success productAdded hide ml-2">
+                Product Added!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col"></div>
+      </div>
+    </div>
+
+    <div th:replace="fragments/footer"></div>
+
+    <script>
+      $('a.addToCart').click(function (e) {
+        e.preventDefault()
+
+        let $this = $(this)
+
+        $this.next().removeClass('d-none')
+
+        let id = $this.attr('data-id')
+        let url = '/cart/add/' + id
+
+        $.get(url, {}, function (data) {
+          $('div.cart').html(data)
+        }).done(function () {
+          $this.parent().parent().find('div.productAdded').fadeIn()
+          $this.next().addClass('d-none')
+          setTimeout(() => {
+            $this.parent().parent().find('div.productAdded').fadeOut()
+          }, 1300)
+        })
+      })
+    </script>
+  </body>
+</html>

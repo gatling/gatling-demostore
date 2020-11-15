@@ -45,3 +45,10 @@ form#paypalform {
   position: absolute;
   left: -3000px;
 }
+
+.link-unstyled,
+.link-unstyled:link,
+.link-unstyled:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
