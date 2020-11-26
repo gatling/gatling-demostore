@@ -59,6 +59,7 @@
             <tr>
               <td class="text-right" colspan="4"><b>Grand Total:</b></td>
               <td
+                id="grandTotal"
                 colspan="1"
                 th:text="'$' + ${#numbers.formatDecimal(ctotal, 0, 'COMMA', 2, 'POINT')}"
               ></td>
