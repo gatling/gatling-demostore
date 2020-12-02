@@ -7,10 +7,15 @@
       <div class="row">
         <div th:replace="fragments/categories"></div>
         <div class="col"></div>
-        <div class="col-6">
+        <div class="col-6 text-center">
           <h3 class="display-4">Register</h3>
 
-          <form method="post" th:object="${user}" th:action="@{/register}">
+          <div>
+            <p></p>
+            <h4>Registration is currently disabled</h4>
+          </div>
+
+          <!-- <form method="post" th:object="${user}" th:action="@{/register}">
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
               There are errors
             </div>
@@ -88,7 +93,7 @@
             </div>
 
             <button class="btn btn-danger mb-5">Register</button>
-          </form>
+          </form> -->
         </div>
         <div class="col"></div>
       </div>
