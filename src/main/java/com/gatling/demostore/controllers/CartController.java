@@ -129,8 +129,6 @@ public class CartController {
             return "redirect:/";
         }
 
-        // TODO - Add a Cart empty page
-
         HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>)session.getAttribute("cart");
 
         model.addAttribute("cart", cart);

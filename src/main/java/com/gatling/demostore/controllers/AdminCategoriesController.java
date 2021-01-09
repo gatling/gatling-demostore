@@ -35,11 +35,6 @@ public class AdminCategoriesController {
         return "admin/categories/index";
     }
 
-    // @ModelAttribute("category")
-    // public Category getCategory() {
-    //     return new Category();
-    // }
-
     @GetMapping("/add")
     public String add(Category category) {
 
