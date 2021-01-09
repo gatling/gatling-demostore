@@ -31,32 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    // @Override
-    // protected void configure(HttpSecurity http) throws Exception {
-    //     http
-    //     .authorizeRequests()
-    //     .antMatchers("/category/**").hasAnyRole("USER", "ADMIN")
-    //     .antMatchers("/admin/**").hasAnyRole("ADMIN")
-    //     .antMatchers("/").permitAll()
-    //         .and()
-    //             .formLogin()
-    //                 .loginPage("/login")
-    //         .and()
-    //             .logout()
-    //                 .logoutSuccessUrl("/")
-    //         .and()
-    //             .exceptionHandling()
-    //                 .accessDeniedPage("/");
-
- //       .antMatchers("/**").hasAnyAuthority("USER");
-
-        // Different way of writing it with Spring Security language 
-        // http
-        //     .authorizeRequests()
-        //         .antMatchers("/category/**").access("hasRole('ROLE_USER')")
-        //         .antMatchers("/").access("permitAll");
- //   }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
          http

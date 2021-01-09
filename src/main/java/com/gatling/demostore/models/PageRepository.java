@@ -11,10 +11,6 @@ public interface PageRepository extends JpaRepository<Page, Integer> {
 
     Page findBySlug(String slug);
 
-    // @Query("SELECT p FROM Page p WHERE p.id != :id and p.slug = :slug")
-    // Page findBySlug(int id, String slug);
-
-    // this does the same as above
     Page findBySlugAndIdNot(String slug, int id);
 
     List<Page> findAllByOrderBySortingAsc();
