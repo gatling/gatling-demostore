@@ -17,7 +17,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<start-class>com.gatling.demostore.DemoStoreApplication</start-class>
+		<start-class>io.gatling.demostore.DemoStoreApplication</start-class>
 	</properties>
 
 	<dependencies>
@@ -99,5 +99,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
