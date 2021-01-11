@@ -8,7 +8,7 @@
 		<version>2.3.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.gatling</groupId>
+	<groupId>io.gatling</groupId>
 	<artifactId>demo-store</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -17,7 +17,7 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<start-class>com.gatling.demostore.DemoStoreApplication</start-class>
+		<start-class>io.gatling.demostore.DemoStoreApplication</start-class>
 	</properties>
 
 	<dependencies>
@@ -99,5 +99,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
