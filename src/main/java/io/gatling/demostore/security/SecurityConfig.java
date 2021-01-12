@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .requiresChannel()
                 .anyRequest()
-                .requiresSecure();
+                .requiresInsecure();
         http
                 .authorizeRequests()
                 .antMatchers("/cart/view").hasAnyRole("USER", "ADMIN")
