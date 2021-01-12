@@ -16,6 +16,7 @@ public class Page {
 
     private String slug;
 
+    @Lob
     @Size(min = 5, message = "Content must be at least 5 characters long")
     private String content;
 
