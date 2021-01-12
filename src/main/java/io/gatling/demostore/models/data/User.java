@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {@Index(columnList = "username")})
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1l;

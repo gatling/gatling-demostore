@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "admin", indexes = {@Index(columnList = "username")})
 public class Admin implements UserDetails {
 
     private static final long serialVersionUID = 2l;
