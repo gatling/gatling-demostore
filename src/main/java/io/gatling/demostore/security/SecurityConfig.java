@@ -34,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .requiresChannel()
-                .anyRequest()
-                .requiresSecure();
+                .anyRequest();
         http
                 .authorizeRequests()
                 .antMatchers("/cart/view").hasAnyRole("USER", "ADMIN")
