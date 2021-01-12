@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "pages")
+@Table(name = "pages", indexes = {@Index(columnList = "slug")})
 public class Page {
 
     @Id

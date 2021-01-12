@@ -9,7 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "products")
+@Table(name = "products", indexes = {@Index(columnList = "category_id"), @Index(columnList = "slug")})
 public class Product {
 
     @Id
