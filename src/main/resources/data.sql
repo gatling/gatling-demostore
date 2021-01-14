@@ -1,5 +1,5 @@
 INSERT INTO admin (id, username, password)
-VALUES (1,'admin','$2a$10$zqnUnOIS0rttMsAQxF4MQ.w2Y.uT0JXJyxL3xMIAQQoOJ4MHG53Cy');
+VALUES (1,'admin','admin');
 
 INSERT INTO categories (id, name, slug, sorting)
 VALUES (5,'For Him','for-him',100),
@@ -36,7 +36,7 @@ VALUES (17,'Casual Black-Blue','casual-black-blue','<p>Some casual black &amp; b
        (39,'White Leopard Pattern','white-leopard-pattern','<p>White leopard pattern design glasses case</p>','curve-whitepattern-open.jpg',13.99,7,'2020-11-15 17:06:32','2020-11-15 17:06:32');
 
 INSERT INTO users (id, username, password, email, phone_number)
-VALUES (1,'john','$2a$10$GRy1HTXyH2xv49sZ8J1cU.kF1MgxaGSEpRAHNb76iYtomzuEcaZgq','john@gmail.com','11111111'),
-       (2,'user1','$2a$10$GRy1HTXyH2xv49sZ8J1cU.kF1MgxaGSEpRAHNb76iYtomzuEcaZgq','user1@email.com','11111111'),
-       (3,'user2','$2a$10$GRy1HTXyH2xv49sZ8J1cU.kF1MgxaGSEpRAHNb76iYtomzuEcaZgq','user2@email.com','11111111'),
-       (4,'user3','$2a$10$GRy1HTXyH2xv49sZ8J1cU.kF1MgxaGSEpRAHNb76iYtomzuEcaZgq','user3@email.com','11111111');
+VALUES (1,'john','pass','john@gmail.com','11111111'),
+       (2,'user1','pass','user1@email.com','11111111'),
+       (3,'user2','pass','user2@email.com','11111111'),
+       (4,'user3','pass','user3@email.com','11111111');
