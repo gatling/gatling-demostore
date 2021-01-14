@@ -40,8 +40,8 @@ public class RegistrationController {
             return "register";
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepo.save(user);
+        // user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // userRepo.save(user);
 
         return "redirect:/login";
     }
