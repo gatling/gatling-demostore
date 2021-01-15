@@ -38,8 +38,7 @@ public class AdminCategoriesController {
     public String add(
             @Valid Category category,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes,
-            Model model
+            RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             return "admin/categories/add";
@@ -60,7 +59,7 @@ public class AdminCategoriesController {
             category.setSlug(slug);
             category.setSorting(100);
 
-            categoryRepo.save(category);
+            // DO NO SAVE (readonly)
         }
 
         return "redirect:/admin/categories/add";
@@ -102,7 +101,7 @@ public class AdminCategoriesController {
         } else {
             category.setSlug(slug);
 
-            categoryRepo.save(category);
+            // DO NOT SAVE (readonly)
         }
 
         return "redirect:/admin/categories/edit/" + category.getId();
@@ -119,18 +118,8 @@ public class AdminCategoriesController {
     }
 
     @PostMapping("/reorder")
-    public @ResponseBody
-    String reorder(@RequestParam("id[]") int[] id) {
-        int count = 1;
-        Category category;
-
-        for (int categoryId : id) {
-            category = categoryRepo.getOne(categoryId);
-            category.setSorting(count);
-            categoryRepo.save(category);
-            count++;
-        }
-
+    @ResponseBody
+    public String reorder() {
         return "ok";
     }
 }

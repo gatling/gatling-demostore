@@ -2,8 +2,6 @@ package io.gatling.demostore.controllers;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,7 +61,7 @@ public class AdminProductsController {
     }
 
     @GetMapping("/add")
-    public String add(Product product, Model model) {
+    public String add(Model model) {
         List<Category> categories = categoryRepo.findAll();
 
         model.addAttribute("categories", categories);
@@ -85,9 +83,7 @@ public class AdminProductsController {
         }
 
         boolean fileOK = false;
-        byte[] bytes = file.getBytes();
         String filename = file.getOriginalFilename();
-        Path path = Paths.get("src/main/resources/static/media/" + filename);
 
         if (filename.endsWith("jpg") || filename.endsWith("png")) {
             fileOK = true;
@@ -111,7 +107,7 @@ public class AdminProductsController {
         } else {
             product.setSlug(slug);
             product.setImage(filename);
-            productRepo.save(product);
+            // DO NOT SAVE (readonly)
 
             // Commenting this out to prevent file uploads
             //   Files.write(path, bytes);
@@ -136,7 +132,7 @@ public class AdminProductsController {
                        BindingResult bindingResult,
                        MultipartFile file,
                        RedirectAttributes redirectAttributes,
-                       Model model) throws IOException {
+                       Model model) {
         Product currentProduct = productRepo.getOne(product.getId());
 
         List<Category> categories = categoryRepo.findAll();
@@ -148,9 +144,7 @@ public class AdminProductsController {
         }
 
         boolean fileOK = false;
-        byte[] bytes = file.getBytes();
         String filename = file.getOriginalFilename();
-        Path path = Paths.get("src/main/resources/static/media/" + filename);
 
         if (!file.isEmpty()) {
             if (filename.endsWith("jpg") || filename.endsWith("png")) {
@@ -187,22 +181,15 @@ public class AdminProductsController {
                 product.setImage(currentProduct.getImage());
             }
 
-            productRepo.save(product);
+            // DO NOT SAVE (readonly)
         }
 
         return "redirect:/admin/products/edit/" + product.getId();
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) throws IOException {
-        // Commenting out to prevent deleting file images
-        //  Product product = productRepo.getOne(id);
-        //  Product currentProduct = productRepo.getOne(product.getId());
-
-        //  Path path2 = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
-        //  Files.delete(path2);
-
-        productRepo.deleteById(id);
+    public String delete(RedirectAttributes redirectAttributes) {
+        // DO NOT DELETE (readonly)
 
         redirectAttributes.addFlashAttribute("message", "Product deleted");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");

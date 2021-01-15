@@ -9,7 +9,6 @@ import io.gatling.demostore.models.ProductRepository;
 import io.gatling.demostore.models.data.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,7 +126,7 @@ public class CartController {
         return "redirect:" + refererLink;
     }
 
-    @RequestMapping("/view")
+    @GetMapping("/view")
     public String view(HttpSession session, Model model) {
         if (session.getAttribute("cart") == null) {
             return "redirect:/";

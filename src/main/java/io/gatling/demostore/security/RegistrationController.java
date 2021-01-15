@@ -18,14 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/register")
 public class RegistrationController {
 
-    @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @GetMapping
-    public String register(User user) {
+    public String register() {
         return "register";
     }
 
@@ -40,8 +34,7 @@ public class RegistrationController {
             return "register";
         }
 
-        // user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // userRepo.save(user);
+        // DO NOT SAVE (readonly)
 
         return "redirect:/login";
     }

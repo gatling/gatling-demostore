@@ -62,7 +62,7 @@ public class AdminPagesController {
             page.setSlug(slug);
             page.setSorting(100);
 
-            pageRepo.save(page);
+            // DO NOT SAVE (readonly)
         }
 
         return "redirect:/admin/pages/add";
@@ -107,7 +107,7 @@ public class AdminPagesController {
         } else {
             page.setSlug(slug);
 
-            pageRepo.save(page);
+            // DO NOT SAVE (readonly)
         }
 
         return "redirect:/admin/pages/edit/" + page.getId();
@@ -115,7 +115,7 @@ public class AdminPagesController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
-        pageRepo.deleteById(id);
+        // DO NOT DELETE (readonly)
 
         redirectAttributes.addFlashAttribute("message", "Page deleted");
         redirectAttributes.addFlashAttribute("alertClass", "alert-success");
@@ -124,18 +124,9 @@ public class AdminPagesController {
     }
 
     @PostMapping("/reorder")
-    public @ResponseBody
-    String reorder(@RequestParam("id[]") int[] id) {
-        int count = 1;
-        Page page;
-
-        for (int pageId : id) {
-            page = pageRepo.getOne(pageId);
-            page.setSorting(count);
-            pageRepo.save(page);
-            count++;
-        }
-
+    @ResponseBody
+    public String reorder() {
+        // DO NOT SAVE (readonly)
         return "ok";
     }
 }
