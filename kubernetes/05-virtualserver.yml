@@ -1,0 +1,21 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: demostore
+  namespace: demostore
+spec:
+  host: demostore.gatling.io
+  tls:
+    secret: tls-wildcard-public
+    redirect:
+      enable: false
+  policies:
+  - name: demostore
+  upstreams:
+  - name: demostore
+    service: demostore
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: demostore

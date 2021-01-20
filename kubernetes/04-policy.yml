@@ -1,0 +1,13 @@
+apiVersion: k8s.nginx.org/v1alpha1
+kind: Policy 
+metadata:
+  name: demostore
+  namespace: demostore
+spec:
+  rateLimit:
+    rate: 20r/s
+    zoneSize: 10m
+    burst: 10
+    noDelay: true
+    key: ${binary_remote_addr}
+    rejectCode: 429
