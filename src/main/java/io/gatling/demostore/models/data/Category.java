@@ -1,6 +1,7 @@
 package io.gatling.demostore.models.data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -11,6 +12,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
     @Size(min = 2, message = "Name must be at least 2 characters long")
     private String name;
 
