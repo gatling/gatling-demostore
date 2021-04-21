@@ -4,7 +4,6 @@ import io.gatling.demostore.models.AdminRepository;
 import io.gatling.demostore.models.UserRepository;
 import io.gatling.demostore.models.data.Admin;
 import io.gatling.demostore.models.data.User;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,8 +19,8 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     @Autowired
     private AdminRepository adminRepo;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
         Admin admin = adminRepo.findByUsername(username);
 
