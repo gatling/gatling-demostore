@@ -1,7 +1,7 @@
-package io.gatling.demostore.api;
+package io.gatling.demostore.api.controllers;
 
-import io.gatling.demostore.api.payload.AuthenticationRequest;
-import io.gatling.demostore.api.payload.AuthenticationResponse;
+import io.gatling.demostore.api.payloads.AuthenticationRequest;
+import io.gatling.demostore.api.payloads.AuthenticationResponse;
 import io.gatling.demostore.security.JwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;

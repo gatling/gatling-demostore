@@ -1,4 +1,4 @@
-package io.gatling.demostore.controllers;
+package io.gatling.demostore.website.controllers;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package io.gatling.demostore.security;
+package io.gatling.demostore.website.controllers;
 
 import javax.validation.Valid;
 

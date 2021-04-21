@@ -1,6 +1,6 @@
-package io.gatling.demostore.api;
+package io.gatling.demostore.api.controllers;
 
-import io.gatling.demostore.api.payload.ProductRequest;
+import io.gatling.demostore.api.payloads.ProductRequest;
 import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.ProductRepository;
 import io.gatling.demostore.models.data.Product;
