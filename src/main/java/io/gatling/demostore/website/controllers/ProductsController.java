@@ -1,4 +1,4 @@
-package io.gatling.demostore.controllers;
+package io.gatling.demostore.website.controllers;
 
 import io.gatling.demostore.models.ProductRepository;
 import io.gatling.demostore.models.data.Product;

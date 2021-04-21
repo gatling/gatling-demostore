@@ -1,4 +1,4 @@
-package io.gatling.demostore.api;
+package io.gatling.demostore.api.controllers;
 
 import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.data.Category;
