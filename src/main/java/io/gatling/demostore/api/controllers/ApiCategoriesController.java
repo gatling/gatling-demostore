@@ -1,9 +1,10 @@
 package io.gatling.demostore.api.controllers;
 
+import io.gatling.demostore.api.payloads.CategoryRequest;
 import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.data.Category;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+// @Tag(name = "categories", description = "Categories") // Should be fixed in springfox 3.0.1, disabled for now...
 @RestController
 @RequestMapping("/api/category")
 public class ApiCategoriesController {
@@ -27,34 +31,37 @@ public class ApiCategoriesController {
 
     private final CategoryRepository categoryRepository;
 
-    @GetMapping
+    @Operation(summary = "List all categories")
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     public List<Category> list() {
         return categoryRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @Operation(summary = "Get a category")
+    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     public Category get(@PathVariable Integer id) {
         return categoryRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    // TODO - authentication for create/update routes
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create a category")
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Category create(
-            @Valid @RequestBody Category category,
+            @Valid @RequestBody CategoryRequest request,
             BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        String slug = category.getName().toLowerCase().replace(" ", "-");
+        String slug = request.getName().toLowerCase().replace(" ", "-");
         if (categoryRepository.findBySlug(slug) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
+        Category category = new Category();
+        category.setName(request.getName());
         category.setSlug(slug);
         category.setSorting(100);
 
@@ -62,10 +69,11 @@ public class ApiCategoriesController {
         return category;
     }
 
-    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Update a category")
+    @PutMapping(path = "/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Category update(
             @PathVariable Integer id,
-            @Valid @RequestBody Category update,
+            @Valid @RequestBody CategoryRequest request,
             BindingResult bindingResult
     ) {
         Category category = categoryRepository
@@ -76,9 +84,9 @@ public class ApiCategoriesController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        String slug = update.getName().toLowerCase().replace(" ", "-");
+        String slug = request.getName().toLowerCase().replace(" ", "-");
         category.setSlug(slug);
-        category.setName(update.getName());
+        category.setName(request.getName());
 
         // DO NO SAVE (readonly)
         return category;

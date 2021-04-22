@@ -1,12 +1,16 @@
 package io.gatling.demostore.api.payloads;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.NotNull;
 
 public class AuthenticationRequest {
 
+    @Schema(example = "admin", required = true)
     @NotNull
     private String username;
 
+    @Schema(example = "admin", required = true)
     @NotNull
     private String password;
 
