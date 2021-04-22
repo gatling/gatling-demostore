@@ -4,9 +4,9 @@ import io.gatling.demostore.api.payloads.ProductRequest;
 import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.ProductRepository;
 import io.gatling.demostore.models.data.Product;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +22,9 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+// @Tag(name = "products", description = "Products") // Should be fixed in springfox 3.0.1, disabled for now...
 @RestController
 @RequestMapping("/api/product")
 public class ApiProductsController {
@@ -34,7 +37,8 @@ public class ApiProductsController {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    @GetMapping
+    @Operation(summary = "List all products")
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     public List<Product> listProducts(@RequestParam(value = "category", required = false) String categoryId) {
         if (categoryId == null) {
             return productRepository.findAll();
@@ -43,16 +47,16 @@ public class ApiProductsController {
         }
     }
 
-    @GetMapping("/{id}")
+    @Operation(summary = "Get a product")
+    @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
     public Product getProduct(@PathVariable Integer id) {
         return productRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    // TODO - authentication for create/update routes
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create a product")
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Product create(
             @Valid @RequestBody ProductRequest request,
             BindingResult bindingResult
@@ -82,7 +86,8 @@ public class ApiProductsController {
         return product;
     }
 
-    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Update a product")
+    @PutMapping(path = "/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Product update(
             @PathVariable Integer id,
             @Valid @RequestBody ProductRequest request,

@@ -1,35 +1,37 @@
 package io.gatling.demostore.api.payloads;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class ProductRequest {
 
-    private int id;
-
+    @Schema(example = "Purple Glasses", required = true)
+    @NotNull(message = "Please set a name")
     @Size(min = 2, message = "Name must be at least 2 characters long")
     private String name;
 
+    @Schema(example = "Purple Glasses", required = true)
+    @NotNull(message = "<p>Some purple glasses</p>")
     @Size(min = 5, message = "Description must be at least 5 characters long")
     private String description;
 
+    @Schema(example = "purple-glasses.jpg")
     @Pattern(regexp = "^.*\\.(jpg|png)$", message = "Expected format: .jpg or .png")
     private String image;
 
+    @Schema(example = "19.99", required = true)
+    @NotNull(message = "Please set a price")
     @Pattern(regexp = "^[0-9]+([.][0-9]{1,2})?", message = "Expected format: 5, 5.99, 15, 15.99")
     private String price;
 
-    @Positive(message = "Please choose a category")
+    @Schema(example = "7", required = true)
+    @NotNull(message = "Please choose a category")
+    @Positive(message = "Please choose a valid category")
     private Integer categoryId;
-
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return this.name;

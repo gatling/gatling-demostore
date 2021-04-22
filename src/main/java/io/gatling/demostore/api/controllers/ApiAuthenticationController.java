@@ -3,6 +3,7 @@ package io.gatling.demostore.api.controllers;
 import io.gatling.demostore.api.payloads.AuthenticationRequest;
 import io.gatling.demostore.api.payloads.AuthenticationResponse;
 import io.gatling.demostore.security.JwtService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 
+// @Tag(name = "authentication", description = "Authentication") // Should be fixed in springfox 3.0.1, disabled for now...
 @RestController
 @RequestMapping("/api/authenticate")
 public class ApiAuthenticationController {
@@ -27,6 +29,7 @@ public class ApiAuthenticationController {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
+    @Operation(summary = "Request authentication token")
     @PostMapping
     public AuthenticationResponse createAuthenticationToken(
             @Valid @RequestBody AuthenticationRequest request,
