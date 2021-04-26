@@ -27,6 +27,7 @@ public class SwaggerConfig {
                 .paths(regex("/api.*"))
                 .build()
                 .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false)
                 .securitySchemes(Collections.singletonList(authenticationScheme()))
                 .securityContexts(Collections.singletonList(securityContext()));
     }
