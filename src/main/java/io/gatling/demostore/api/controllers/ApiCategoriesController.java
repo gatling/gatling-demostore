@@ -4,6 +4,9 @@ import io.gatling.demostore.api.payloads.CategoryRequest;
 import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.data.Category;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +41,20 @@ public class ApiCategoriesController {
     }
 
     @Operation(summary = "Get a category")
+    @ApiResponses(
+            @ApiResponse(responseCode = "404", description = "Category not found")
+    )
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-    public Category get(@PathVariable Integer id) {
+    public Category get(@PathVariable @Parameter(description = "Category ID") Integer id) {
         return categoryRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @Operation(summary = "Create a category")
+    @ApiResponses(
+            @ApiResponse(responseCode = "400", description = "Invalid request content or duplicate of an existing category")
+    )
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Category create(
             @Valid @RequestBody CategoryRequest request,
@@ -70,9 +79,13 @@ public class ApiCategoriesController {
     }
 
     @Operation(summary = "Update a category")
+    @ApiResponses({
+            @ApiResponse(responseCode = "400", description = "Invalid request content"),
+            @ApiResponse(responseCode = "404", description = "Category not found")
+    })
     @PutMapping(path = "/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Category update(
-            @PathVariable Integer id,
+            @PathVariable @Parameter(description = "Category ID") Integer id,
             @Valid @RequestBody CategoryRequest request,
             BindingResult bindingResult
     ) {

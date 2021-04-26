@@ -5,6 +5,9 @@ import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.ProductRepository;
 import io.gatling.demostore.models.data.Product;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -39,7 +42,11 @@ public class ApiProductsController {
 
     @Operation(summary = "List all products")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
-    public List<Product> listProducts(@RequestParam(value = "category", required = false) String categoryId) {
+    public List<Product> listProducts(
+            @RequestParam(value = "category", required = false)
+            @Parameter(description = "Filter by category ID")
+                    String categoryId
+    ) {
         if (categoryId == null) {
             return productRepository.findAll();
         } else {
@@ -48,14 +55,22 @@ public class ApiProductsController {
     }
 
     @Operation(summary = "Get a product")
+    @ApiResponses(
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    )
     @GetMapping(path = "/{id}", produces = APPLICATION_JSON_VALUE)
-    public Product getProduct(@PathVariable Integer id) {
+    public Product getProduct(
+            @PathVariable @Parameter(description = "Product ID") Integer id
+    ) {
         return productRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @Operation(summary = "Create a product")
+    @ApiResponses(
+            @ApiResponse(responseCode = "400", description = "Invalid request content or duplicate of an existing product")
+    )
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Product create(
             @Valid @RequestBody ProductRequest request,
@@ -87,9 +102,13 @@ public class ApiProductsController {
     }
 
     @Operation(summary = "Update a product")
+    @ApiResponses({
+            @ApiResponse(responseCode = "400", description = "Invalid request content"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
     @PutMapping(path = "/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Product update(
-            @PathVariable Integer id,
+            @PathVariable @Parameter(description = "Product ID") Integer id,
             @Valid @RequestBody ProductRequest request,
             BindingResult bindingResult
     ) {

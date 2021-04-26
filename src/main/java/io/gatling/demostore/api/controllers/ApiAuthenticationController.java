@@ -4,6 +4,8 @@ import io.gatling.demostore.api.payloads.AuthenticationRequest;
 import io.gatling.demostore.api.payloads.AuthenticationResponse;
 import io.gatling.demostore.security.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 // @Tag(name = "authentication", description = "Authentication") // Should be fixed in springfox 3.0.1, disabled for now...
 @RestController
@@ -30,7 +34,10 @@ public class ApiAuthenticationController {
     private final UserDetailsService userDetailsService;
 
     @Operation(summary = "Request authentication token")
-    @PostMapping
+    @ApiResponses(
+            @ApiResponse(responseCode = "400", description = "Invalid user name or password")
+    )
+    @PostMapping(produces = APPLICATION_JSON_VALUE)
     public AuthenticationResponse createAuthenticationToken(
             @Valid @RequestBody AuthenticationRequest request,
             BindingResult bindingResult
