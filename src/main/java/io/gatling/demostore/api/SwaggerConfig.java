@@ -37,6 +37,7 @@ public class SwaggerConfig {
                 .title("Gatling DemoStore API")
                 .description("This is an API for a fictional / dummy eCommerce store that sells eyeglass cases. The create/update API endpoints only simulate writes, their results do not actually get persisted.")
                 .contact(new Contact("Gatling", "https://gatling.io/", null))
+                .version("1.0.0")
                 .build();
     }
 
