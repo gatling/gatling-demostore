@@ -2,7 +2,7 @@
 
 ## Running the application
 
-To run the application through Spring Boot do  `mvn generate-sources spring-boot:run`.
+To run the application through Spring Boot do  `mvn spring-boot:run`.
 
 - The website will be accessible at http://localhost:8080.
 - Documentation for the REST APIs will be accessible at http://localhost:8080/swagger-ui.
