@@ -2,6 +2,7 @@ package io.gatling.demostore.api;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.AuthorizationScope;
@@ -9,6 +10,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.service.HttpAuthenticationScheme;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.OperationContext;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -21,7 +23,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class SwaggerConfig {
 
     @Bean
-    public Docket scrumAllyApi() {
+    public Docket openApiDocket() {
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .paths(regex("/api.*"))
@@ -52,6 +54,14 @@ public class SwaggerConfig {
         AuthorizationScope[] authorizationScopes = {new AuthorizationScope("global", "accessEverything")};
         List<SecurityReference> securityReferences =
                 Collections.singletonList(new SecurityReference("JWT", authorizationScopes));
-        return SecurityContext.builder().securityReferences(securityReferences).build();
+        return SecurityContext.builder()
+                .securityReferences(securityReferences)
+                .operationSelector(this::isSecuredOperation)
+                .build();
+    }
+
+    private boolean isSecuredOperation(OperationContext context) {
+        return context.httpMethod() != HttpMethod.GET
+                && !context.getName().equals("createAuthenticationToken");
     }
 }
