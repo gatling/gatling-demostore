@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     types:
       - opened
@@ -50,27 +50,23 @@ jobs:
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-
       - name: Docker build
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           ECR_REPOSITORY: demostore
-          DEMOSTORE_VERSION: ${{ env.GITHUB_REF_SLUG }} # branch name
         run: |
           docker build \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:$DEMOSTORE_VERSION \
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest \
             --file Dockerfile \
             .
 
       - name: Docker push
-        if: ${{ env.GITHUB_REF_SLUG == 'master' }}
+        if: github.ref == 'refs/heads/main'
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
           ECR_REPOSITORY: demostore
-          DEMOSTORE_VERSION: ${{ env.GITHUB_REF_SLUG }} # branch name
+          DEMOSTORE_VERSION: main
         run: |
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$DEMOSTORE_VERSION
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$DEMOSTORE_VERSION
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$DEMOSTORE_VERSION $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
