@@ -71,3 +71,17 @@ jobs:
           IMAGE_VERSION: build-${{ github.run_number }}
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_VERSION
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: https://demostore.gatling.io
+    timeout-minutes: 10
+    steps:
+      - name: Tag & deploy?
+        run: |
+          echo "Tagging build-${{ github.run_number }} to prod"
+          echo "Deploying"
