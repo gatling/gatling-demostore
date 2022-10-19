@@ -30,7 +30,7 @@ public class PagesController {
         return "login";
     }
 
-    @GetMapping("/{slug}")
+    @GetMapping("/{slug:[a-z-+]}")
     public String page(@PathVariable String slug, Model model) {
         Page page = pageRepo.findBySlug(slug);
 
