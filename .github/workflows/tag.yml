@@ -1,0 +1,42 @@
+name: Tag for production
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_number:
+        description: 'Run number to tag from'
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Tag Docker image for production use
+        env:
+          IMAGE_TAG: prod
+          IMAGE_VERSION: build-${{ github.event.inputs.run_number }}
+          ECR_REPOSITORY: demostore
+        run: |
+          manifest=$(aws ecr batch-get-image \
+            --repository-name $ECR_REPOSITORY \
+            --image-ids imageTag=$IMAGE_VERSION \
+            --output json \
+              | jq --raw-output \
+                   --join-output '.images[0].imageManifest')
+          aws ecr put-image \
+            --repository-name $ECR_REPOSITORY \
+            --image-tag $IMAGE_TAG \
+            --image-manifest "$manifest" \
+              | jq --raw-output
