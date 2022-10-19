@@ -25,9 +25,9 @@ jobs:
 
       - name: Tag Docker image for production use
         env:
+          ECR_REPOSITORY: demostore
           IMAGE_TAG: prod
           IMAGE_VERSION: build-${{ github.event.inputs.run_number }}
-          ECR_REPOSITORY: demostore
         run: |
           manifest=$(aws ecr batch-get-image \
             --repository-name $ECR_REPOSITORY \
