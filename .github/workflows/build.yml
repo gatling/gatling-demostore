@@ -9,6 +9,10 @@ on:
       - opened
       - synchronize
 
+permissions:
+  id-token: write
+  contents: read
+
 defaults:
   run:
     shell: bash
@@ -43,8 +47,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_PROD_DEMOSTORE }}
           aws-region: us-east-1
 
       - name: Login to Amazon ECR
@@ -52,6 +55,8 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: aws-actions/amazon-ecr-login@v1
 
+      # $ECR_REGISTRY won't be defined on pull requests
+      # Use a dummy value to allow build in these cases
       - name: Docker build
         env:
           ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
@@ -59,7 +64,7 @@ jobs:
           IMAGE_VERSION: build-${{ github.run_number }}
         run: |
           docker build \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_VERSION \
+            --tag ${ECR_REGISTRY:-dummy}/$ECR_REPOSITORY:$IMAGE_VERSION \
             --file Dockerfile \
             .
 
@@ -71,17 +76,3 @@ jobs:
           IMAGE_VERSION: build-${{ github.run_number }}
         run: |
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_VERSION
-
-  deploy:
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment:
-      name: prod
-      url: https://demostore.gatling.io
-    timeout-minutes: 10
-    steps:
-      - name: Tag & deploy?
-        run: |
-          echo "Tagging build-${{ github.run_number }} to prod"
-          echo "Deploying"
