@@ -1,10 +1,10 @@
-name: Tag for production
+name: Deploy
 
 on:
   workflow_dispatch:
     inputs:
       run_number:
-        description: 'Run number to tag from'
+        description: 'Run number to deploy from'
         required: true
 
 permissions:
@@ -16,8 +16,11 @@ defaults:
     shell: bash
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+        name: prod
+        url: https://demostore.gatling.io
     timeout-minutes: 10
     steps:
       - name: Configure AWS Credentials
@@ -43,3 +46,7 @@ jobs:
             --image-tag $IMAGE_TAG \
             --image-manifest "$manifest" \
               | jq --raw-output
+
+      - name: Deploy
+        run: |
+          aws ssm start-associations-once --association-id "${{ secrets.AWS_SSM_ASSOCIATION_MEP_DEMOSTORE_PROD }}"
