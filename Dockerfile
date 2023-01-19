@@ -1,4 +1,4 @@
-FROM maven:3-openjdk-11 AS build
+FROM maven:3-openjdk-17 AS build
 
 COPY ./pom.xml /build/pom.xml
 
@@ -10,7 +10,7 @@ COPY . /build
 
 RUN mvn clean package
 
-FROM openjdk:11-jre-slim
+FROM azul/zulu-openjdk:17.0.6-jre-headless
 
 COPY --from=build /build/target/demo-store-*.jar /demo-store.jar
 
