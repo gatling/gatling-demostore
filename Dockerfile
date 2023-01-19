@@ -14,4 +14,4 @@ FROM azul/zulu-openjdk:17.0.6-jre-headless
 
 COPY --from=build /build/target/demo-store-*.jar /demo-store.jar
 
-CMD ["sh", "-c", "java ${JAVA_OPTS} -jar /demo-store.jar"]
+CMD ["java", "-jar", "/demo-store.jar"]
