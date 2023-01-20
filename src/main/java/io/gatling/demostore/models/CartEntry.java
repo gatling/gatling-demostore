@@ -1,6 +1,6 @@
 package io.gatling.demostore.models;
 
-public class Cart {
+public class CartEntry {
 
     private int id;
     private String name;
@@ -48,7 +48,10 @@ public class Cart {
         this.image = image;
     }
 
-    public Cart(int id, String name, String price, int quantity, String image) {
+    public CartEntry() {
+    }
+
+    public CartEntry(int id, String name, String price, int quantity, String image) {
         this.id = id;
         this.name = name;
         this.price = price;

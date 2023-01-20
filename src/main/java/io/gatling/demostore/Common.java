@@ -1,19 +1,21 @@
 package io.gatling.demostore;
 
-import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import io.gatling.demostore.models.Cart;
+import io.gatling.demostore.models.CartEntry;
 import io.gatling.demostore.models.CategoryRepository;
 import io.gatling.demostore.models.PageRepository;
 import io.gatling.demostore.models.data.Category;
 import io.gatling.demostore.models.data.Page;
 
+import io.gatling.demostore.website.controllers.CartController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
@@ -27,7 +29,7 @@ public class Common {
     private CategoryRepository categoryRepo;
 
     @ModelAttribute
-    public void sharedData(Model model, HttpSession session, Principal principal) {
+    public void sharedData(Model model, @CookieValue(value = CartController.Carts.COOKIE_NAME, required = false) String cartCookie, Principal principal) throws IOException {
         if (principal != null) {
             model.addAttribute("principal", principal.getName());
         }
@@ -38,13 +40,13 @@ public class Common {
 
         boolean cartActive = false;
 
-        if (session.getAttribute("cart") != null) {
-            HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
+        if (cartCookie != null) {
+            Map<Integer, CartEntry> cart = CartController.Carts.fromCookieValue(cartCookie);
 
             int size = 0;
             double total = 0;
 
-            for (Cart value : cart.values()) {
+            for (CartEntry value : cart.values()) {
                 size += value.getQuantity();
                 total += value.getQuantity() * Double.parseDouble(value.getPrice());
             }
