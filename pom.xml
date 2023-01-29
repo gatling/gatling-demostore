@@ -20,7 +20,6 @@
 		<start-class>io.gatling.demostore.DemoStoreApplication</start-class>
 		<jjwt.version>0.11.5</jjwt.version>
 		<springfox-boot-starter.version>3.0.4</springfox-boot-starter.version>
-		<jasypt-spring-boot-starter.version>3.0.4</jasypt-spring-boot-starter.version>
 	</properties>
 
 	<dependencies>
@@ -100,12 +99,6 @@
     		<groupId>org.springframework.boot</groupId>
       		<artifactId>spring-boot-starter-tomcat</artifactId>
       		<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.github.ulisesbocchio</groupId>
- 			<artifactId>jasypt-spring-boot-starter</artifactId>
- 			<version>${jasypt-spring-boot-starter.version}</version>
 		</dependency>
 
 		<dependency>
