@@ -6,6 +6,7 @@ import io.gatling.demostore.security.JwtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-// @Tag(name = "authentication", description = "Authentication") // Should be fixed in springfox 3.0.1, disabled for now...
+@Tag(name = "authentication", description = "Authentication")
 @RestController
 @RequestMapping("/api/authenticate")
 public class ApiAuthenticationController {

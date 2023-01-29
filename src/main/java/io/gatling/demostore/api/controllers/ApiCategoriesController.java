@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +23,10 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.List;
 
+import static io.gatling.demostore.api.SwaggerConfig.SECURITY_SCHEME;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-// @Tag(name = "categories", description = "Categories") // Should be fixed in springfox 3.0.1, disabled for now...
+@Tag(name = "categories", description = "Categories")
 @RestController
 @RequestMapping("/api/category")
 public class ApiCategoriesController {
@@ -51,7 +54,7 @@ public class ApiCategoriesController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @Operation(summary = "Create a category")
+    @Operation(summary = "Create a category", security = @SecurityRequirement(name = SECURITY_SCHEME))
     @ApiResponses(
             @ApiResponse(responseCode = "400", description = "Invalid request content or duplicate of an existing category")
     )
@@ -78,7 +81,7 @@ public class ApiCategoriesController {
         return category;
     }
 
-    @Operation(summary = "Update a category")
+    @Operation(summary = "Update a category", security = @SecurityRequirement(name = SECURITY_SCHEME))
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "Invalid request content"),
             @ApiResponse(responseCode = "404", description = "Category not found")
