@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -25,9 +27,10 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static io.gatling.demostore.api.SwaggerConfig.SECURITY_SCHEME;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-// @Tag(name = "products", description = "Products") // Should be fixed in springfox 3.0.1, disabled for now...
+@Tag(name = "products", description = "Products")
 @RestController
 @RequestMapping("/api/product")
 public class ApiProductsController {
@@ -67,7 +70,7 @@ public class ApiProductsController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @Operation(summary = "Create a product")
+    @Operation(summary = "Create a product", security = @SecurityRequirement(name = SECURITY_SCHEME))
     @ApiResponses(
             @ApiResponse(responseCode = "400", description = "Invalid request content or duplicate of an existing product")
     )
@@ -101,7 +104,7 @@ public class ApiProductsController {
         return product;
     }
 
-    @Operation(summary = "Update a product")
+    @Operation(summary = "Update a product", security = @SecurityRequirement(name = SECURITY_SCHEME))
     @ApiResponses({
             @ApiResponse(responseCode = "400", description = "Invalid request content"),
             @ApiResponse(responseCode = "404", description = "Product not found")
