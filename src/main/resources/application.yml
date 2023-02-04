@@ -3,6 +3,39 @@ spring:
     user:
       name: user
       password: pass
+  datasource:
+    url: jdbc:h2:mem:gatling-demostore
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+  h2:
+    console.enabled: false
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  thymeleaf:
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    content-type: text/html
+    cache: false
+    check-template: true
+    enabled: true
+
 
 server:
   port: 8080
+  error.whitelabel.enabled: false
+  servlet.session.timeout: 1m
+
+jwt.secret: "wToGV5RiWAU4UNQHJPVBXISBPNJ5C8yoiqbTRu5fXjM="
+
+springdoc:
+  packagesToScan: io.gatling.demostore.api
+  pathsToMatch: /api/**
