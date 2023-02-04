@@ -29,12 +29,16 @@ spring:
     enabled: true
 
 
+jwt.secret: "wToGV5RiWAU4UNQHJPVBXISBPNJ5C8yoiqbTRu5fXjM="
+
+
+auth.cookie.hmac-key: "y.E@EA!FbtCwXYB-2v_n.!*xgzRqgtbq2d2_A_U!W2hubL@URHRzNP96WNPxEcXK"
+
+
 server:
-  port: 8080
   error.whitelabel.enabled: false
   servlet.session.timeout: 1m
-
-jwt.secret: "wToGV5RiWAU4UNQHJPVBXISBPNJ5C8yoiqbTRu5fXjM="
+  port: 8080
 
 springdoc:
   packagesToScan: io.gatling.demostore.api
