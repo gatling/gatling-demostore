@@ -1,12 +1,12 @@
 package io.gatling.demostore.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,8 +18,14 @@ import org.springframework.stereotype.Service;
 @EnableWebSecurity
 public class WebsiteSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+    private final CookieSecurityContextRepository cookieSecurityContextRepository;
+
+    public WebsiteSecurityConfig(UserDetailsService userDetailsService, CookieSecurityContextRepository cookieSecurityContextRepository) {
+        this.userDetailsService = userDetailsService;
+        this.cookieSecurityContextRepository = cookieSecurityContextRepository;
+    }
+
 
     @Bean
     @SuppressWarnings("deprecation")
@@ -46,6 +52,12 @@ public class WebsiteSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                 .csrfTokenRepository(cookieCsrfTokenRepository());
+
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Avoid creating session in memory
+                .and().securityContext().securityContextRepository(cookieSecurityContextRepository)
+                .and().logout().permitAll().deleteCookies(SignedUserInfoCookie.NAME);
 
         http
                 .requiresChannel()
