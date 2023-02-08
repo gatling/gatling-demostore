@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.stereotype.Service;
 
 @Order(2)
@@ -33,8 +34,19 @@ public class WebsiteSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(encoder());
     }
 
+    @Bean
+    protected CookieCsrfTokenRepository cookieCsrfTokenRepository() {
+        CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
+        cookieCsrfTokenRepository.setCookiePath("/");
+        return cookieCsrfTokenRepository;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf()
+                .csrfTokenRepository(cookieCsrfTokenRepository());
+
         http
                 .requiresChannel()
                 .anyRequest();
