@@ -1,26 +1,20 @@
-FROM maven:3-openjdk-17 AS builder
+FROM gatlingcorp/openjdk-base:17-jre-headless AS builder
 
-COPY ./pom.xml /build/pom.xml
+COPY ./demo-store-*.jar /app/demo-store.jar
 
-WORKDIR /build
-
-RUN mvn --batch-mode dependency:resolve
-
-COPY . /build
-
-RUN mvn --batch-mode clean package
-
-RUN chmod -R g=u /build/target/demo-store-*.jar
+# Doing this modifies a lot of files, duplicating the content of /app in two layers: COPY above and RUN below,
+# hence the builder image.
+RUN chmod -R g=u /app
 
 FROM gatlingcorp/openjdk-base:17-jre-headless
 LABEL gatling="demostore"
 
-COPY --from=builder --chown=1001:0 /build/target/demo-store-*.jar /app/demo-store.jar
+COPY --from=builder --chown=1001:0 /app /app
 
 WORKDIR /app
 ENV HOME=/app
 USER 1001
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "./demo-store.jar"]
+ENTRYPOINT ["java", "-jar", "/app/demo-store.jar"]
 CMD []
