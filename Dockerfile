@@ -1,17 +1,26 @@
-FROM maven:3-openjdk-17 AS build
+FROM maven:3-openjdk-17 AS builder
 
 COPY ./pom.xml /build/pom.xml
 
 WORKDIR /build
 
-RUN mvn dependency:resolve
+RUN mvn --batch-mode dependency:resolve
 
 COPY . /build
 
-RUN mvn clean package
+RUN mvn --batch-mode clean package
 
-FROM azul/zulu-openjdk:17.0.6-jre-headless
+RUN chmod -R g=u /build/target/demo-store-*.jar
 
-COPY --from=build /build/target/demo-store-*.jar /demo-store.jar
+FROM gatlingcorp/openjdk-base:17-jre-headless
+LABEL gatling="demostore"
 
-CMD ["java", "-jar", "/demo-store.jar"]
+COPY --from=builder --chown=1001:0 /build/target/demo-store-*.jar /app/demo-store.jar
+
+WORKDIR /app
+ENV HOME=/app
+USER 1001
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "./demo-store.jar"]
+CMD []
