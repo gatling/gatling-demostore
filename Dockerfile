@@ -1,4 +1,4 @@
-FROM gatlingcorp/openjdk-base:17-jre-headless AS builder
+FROM gatlingcorp/openjdk-base:21-jre-headless AS builder
 
 COPY ./demo-store-*.jar /app/demo-store.jar
 
@@ -6,7 +6,7 @@ COPY ./demo-store-*.jar /app/demo-store.jar
 # hence the builder image.
 RUN chmod -R g=u /app
 
-FROM gatlingcorp/openjdk-base:17-jre-headless
+FROM gatlingcorp/openjdk-base:21-jre-headless
 LABEL gatling="demostore"
 
 COPY --from=builder --chown=1001:0 /app /app
