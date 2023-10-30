@@ -7,3 +7,14 @@ updates:
     schedule:
       interval: "weekly"
       day: "sunday"
+  - package-ecosystem: "maven"
+    directory: "/"
+    commit-message:
+      prefix: "chore"
+    ignore:
+      - dependency-name: "io.jsonwebtoken:jjwt-*"
+      - dependency-name: "org.springframework.*:spring-*"
+        update-types: ["version-update:semver-major"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
