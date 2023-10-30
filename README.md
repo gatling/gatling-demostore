@@ -1,5 +1,7 @@
 # Gatling DemoStore Setup
 
+[![Workflow Status (main)](https://github.com/gatling/gatling-demostore/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/gatling/gatling-demostore/actions/workflows/build.yml)
+
 ## Running the application
 
 To run the application through Spring Boot do  `mvn spring-boot:run`.
