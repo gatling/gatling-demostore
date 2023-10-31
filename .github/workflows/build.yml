@@ -50,7 +50,7 @@ jobs:
       - name: Login to Amazon ECR
         id: ecr-login
         if: github.ref == 'refs/heads/main'
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       # $ECR_REGISTRY won't be defined on pull requests
       # Use a dummy value to allow build in these cases
