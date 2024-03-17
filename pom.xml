@@ -132,7 +132,7 @@
                 <!-- Generates a ZIP bundle of the Postman files in the /static/downloads resource folder. -->
                 <!-- This way, Gatling Academy students can download the files from the DemoStore server at /downloads/gatling-demostore-api-postman.zip -->
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.7.0</version>
                 <configuration>
                     <descriptors>
                         <descriptor>src/assembly/create-postman-bundle.xml</descriptor>
