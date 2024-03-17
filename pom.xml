@@ -19,7 +19,7 @@
         <java.version>21</java.version>
         <start-class>io.gatling.demostore.DemoStoreApplication</start-class>
         <jjwt.version>0.11.5</jjwt.version>
-        <springdoc-openapi.version>1.7.0</springdoc-openapi.version>
+        <springdoc-openapi.version>1.8.0</springdoc-openapi.version>
         <spring-session.version>2.7.4</spring-session.version>
     </properties>
 
